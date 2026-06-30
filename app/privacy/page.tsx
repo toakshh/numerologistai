@@ -1,5 +1,5 @@
 import Link from "next/link";
-import BottomNav from "@/components/BottomNav";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 export const metadata = {
   title: "Privacy Policy · Numerologist AI",
@@ -8,27 +8,24 @@ export const metadata = {
 export default function Privacy() {
   return (
     <main className="app">
-      <div className="cosmic-bg" />
-      <div className="stars" />
-
-      <header className="appbar">
-        <Link href="/" className="brand">
-          <span className="om">ॐ</span> Numerologist AI
+      <header className="topbar">
+        <Link href="/" className="wordmark">
+          <span className="dot" /> Numerologist <span className="soft">AI</span>
         </Link>
-        <Link href="/" className="appbar-pill">
-          Home
-        </Link>
+        <ThemeSwitcher />
       </header>
 
       <div className="scroll-area">
-        <section className="page">
-          <span className="eyebrow">Last updated: June 2026</span>
-          <h2 className="title">Privacy Policy</h2>
+        <section className="page" style={{ paddingTop: 28 }}>
+          <span className="eyebrow">Last updated · June 2026</span>
+          <h2 className="h-section" style={{ margin: "12px 0 22px" }}>
+            Privacy Policy
+          </h2>
           <div className="prose">
             <p>
-              Numerologist AI ("we", "the app") provides numerology readings for
-              personal reflection and entertainment. This policy explains what we
-              do with the information you share.
+              Numerologist AI (&ldquo;we&rdquo;, &ldquo;the app&rdquo;) provides
+              numerology readings for personal reflection and entertainment. This
+              policy explains what we do with the information you share.
             </p>
 
             <h3>Information you provide</h3>
@@ -42,39 +39,42 @@ export default function Privacy() {
             <h3>What we store</h3>
             <p>
               We do not require an account and do not maintain a profile of you.
-              Your conversation lives only on your device for the current
-              session and is not persisted on our servers after the response is
-              returned. Our servers may keep short-lived, anonymized request
-              logs for security and abuse-prevention.
+              Your conversation lives only on your device for the current session
+              and is not persisted on our servers after the response is returned.
+              Our servers may keep short-lived, anonymized request logs for
+              security and abuse-prevention.
             </p>
 
             <h3>Third-party processing</h3>
             <p>
               Messages are processed by OpenAI to produce responses. Please refer
-              to OpenAI's privacy and data-usage policies for details on their
-              handling of API data.
+              to OpenAI&rsquo;s privacy and data-usage policies for details on
+              their handling of API data.
             </p>
 
             <h3>Children</h3>
             <p>
-              The app is not directed at children under 13 and we do not
-              knowingly collect their information.
+              The app is not directed at children under 13 and we do not knowingly
+              collect their information.
             </p>
 
             <h3>Disclaimer</h3>
             <p>
-              All insights are numerological interpretations intended for
-              personal reflection and entertainment. They are not medical, legal,
+              All insights are numerological interpretations intended for personal
+              reflection and entertainment. They are not medical, legal,
               financial, or psychological advice.
             </p>
 
             <h3>Contact</h3>
-            <p>For privacy questions, contact: support@numerologistai.app</p>
+            <p>
+              For privacy questions, contact{" "}
+              <a href="mailto:support@numerologistai.app">
+                support@numerologistai.app
+              </a>
+            </p>
           </div>
         </section>
       </div>
-
-      <BottomNav />
     </main>
   );
 }

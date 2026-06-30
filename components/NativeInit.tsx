@@ -19,7 +19,12 @@ export default function NativeInit() {
       try {
         await StatusBar.setStyle({ style: Style.Dark }); // light text on dark theme
         if (Capacitor.getPlatform() === "android") {
-          await StatusBar.setBackgroundColor({ color: "#06060f" });
+          // Match the status bar to the active theme's background.
+          const bg =
+            getComputedStyle(document.documentElement)
+              .getPropertyValue("--bg")
+              .trim() || "#07080d";
+          await StatusBar.setBackgroundColor({ color: bg });
         }
       } catch {}
 

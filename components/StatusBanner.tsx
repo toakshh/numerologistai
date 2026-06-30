@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { WifiOff, Loader2 } from "lucide-react";
 import { API_BASE_URL } from "@/lib/config";
 
 type State = "ok" | "offline" | "backend-down";
@@ -63,22 +64,22 @@ export default function StatusBanner() {
 
   const content =
     state === "offline"
-      ? { cls: "offline", icon: "⚠", text: "No internet connection" }
+      ? { cls: "offline", icon: <WifiOff />, text: "No internet connection" }
       : state === "backend-down"
-      ? { cls: "backend", icon: "◐", text: "Reconnecting to server…" }
+      ? { cls: "down", icon: <Loader2 className="spin" />, text: "Reconnecting…" }
       : null;
 
   return (
     <AnimatePresence>
       {content && (
         <motion.div
-          className={`status-banner ${content.cls}`}
+          className={`banner ${content.cls}`}
           initial={{ y: "-100%" }}
           animate={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
         >
-          <span className="status-icon">{content.icon}</span>
+          {content.icon}
           {content.text}
         </motion.div>
       )}

@@ -1,101 +1,103 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
+import {
+  ArrowRight,
+  Sparkles,
+  Orbit,
+  TrendingUp,
+  Heart,
+  Moon,
+  Target,
+} from "lucide-react";
 import Reveal from "@/components/Reveal";
-import BottomNav from "@/components/BottomNav";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 
 const coreNumbers = [
   { n: "1", title: "Life Path", desc: "The core lesson your birth date sets in motion." },
   { n: "5", title: "Destiny", desc: "What your full name reveals about your purpose." },
   { n: "7", title: "Soul Urge", desc: "The inner desires that quietly drive you." },
-  { n: "3", title: "Personality", desc: "How the world perceives you at first meeting." },
+  { n: "3", title: "Personality", desc: "How the world first perceives you." },
   { n: "9", title: "Maturity", desc: "The wisdom your later years move toward." },
-  { n: "8", title: "Personal Year", desc: "The energetic theme of your present cycle." },
+  { n: "8", title: "Personal Year", desc: "The theme of your present cycle." },
 ];
 
 const steps = [
-  { t: "Share your details", d: "Tell the AI your full name and date of birth." },
-  { t: "Receive your numbers", d: "Watch your core numerology numbers come alive." },
-  { t: "Ask anything", d: "Career, marriage, finance, health — explore freely." },
-  { t: "Get your action plan", d: "Walk away with lucky elements and a roadmap." },
+  { t: "Share your details", d: "Your full name and date of birth — nothing more." },
+  { t: "Meet your numbers", d: "Watch your core numerology numbers come alive." },
+  { t: "Ask anything", d: "Career, love, finance, health — explore freely." },
+  { t: "Get your plan", d: "Leave with lucky elements and a clear roadmap." },
 ];
 
 const insights = [
-  ["✦", "Lucky Elements", "Numbers, colors, days, directions and gemstones for you."],
-  ["☉", "Dominant Planet", "Your ruling planet and how it shapes your nature."],
-  ["₹", "Career & Finance", "Suitable paths, money mindset and timing."],
-  ["❤", "Relationships", "Compatibility, marriage outlook and communication."],
-  ["☾", "Forecasts", "Weekly, monthly and yearly numerological outlooks."],
-  ["✓", "Action Plan", "Clear steps for the next week, month and year."],
+  { Icon: Sparkles, title: "Lucky Elements", desc: "Numbers, colors, days and directions aligned to you." },
+  { Icon: Orbit, title: "Ruling Planet", desc: "Your dominant planet and how it shapes your nature." },
+  { Icon: TrendingUp, title: "Career & Finance", desc: "Suitable paths, money mindset and timing." },
+  { Icon: Heart, title: "Relationships", desc: "Compatibility, marriage outlook and harmony." },
+  { Icon: Moon, title: "Forecasts", desc: "Weekly, monthly and yearly outlooks." },
+  { Icon: Target, title: "Action Plan", desc: "Clear steps for the week, month and year." },
 ];
+
+const container: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
+};
+const item: Variants = {
+  hidden: { opacity: 0, y: 22 },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 260, damping: 26 } },
+};
 
 export default function Home() {
   return (
     <main className="app">
-      <div className="cosmic-bg" />
-      <div className="stars" />
-
-      <header className="appbar">
-        <div className="brand">
-          <span className="om">ॐ</span> Numerologist AI
-        </div>
-        <Link href="/chat" className="appbar-pill">
-          Begin
-        </Link>
+      <header className="topbar">
+        <span className="wordmark">
+          <span className="dot" /> Numerologist <span className="soft">AI</span>
+        </span>
+        <ThemeSwitcher />
       </header>
 
       <div className="scroll-area">
         {/* HERO */}
-        <section className="hero">
-          <motion.div
-            className="mandala"
-            animate={{ rotate: 360 }}
-            transition={{ duration: 90, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.div
-            className="mandala ring-2"
-            animate={{ rotate: -360 }}
-            transition={{ duration: 70, repeat: Infinity, ease: "linear" }}
-          />
-
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-          >
-            <span className="hero-badge">Ancient Wisdom · Modern Insight</span>
-            <h1>
-              Decode the <span className="grad">Numbers</span> in Your Name
-            </h1>
-            <p>
-              A guided numerology consultation powered by AI. Discover your Life
-              Path, lucky elements and a forecast crafted just for you.
-            </p>
+        <motion.section
+          className="hero"
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.span variants={item} className="eyebrow accent">
+            AI Numerology
+          </motion.span>
+          <motion.h1 variants={item} className="h-display">
+            Your life,
+            <br />
+            <span className="grad">in numbers.</span>
+          </motion.h1>
+          <motion.p variants={item} className="lead">
+            A private numerology consultation, guided by AI. Discover your core
+            numbers, lucky elements and a forecast made only for you.
+          </motion.p>
+          <motion.div variants={item} className="btn-row">
             <Link href="/chat" className="btn">
-              Start Your Reading ✦
+              Begin your reading <ArrowRight />
             </Link>
           </motion.div>
-        </section>
+        </motion.section>
 
         {/* CORE NUMBERS */}
-        <section className="section-h">
+        <section className="page section">
           <Reveal>
             <span className="eyebrow">The Sacred Numbers</span>
-            <h2 className="title">Every number tells a story</h2>
-            <p className="lead">
-              Numerology distills your name and birth date into core numbers,
-              each a window into part of your life.
-            </p>
+            <h2 className="h-section" style={{ marginTop: 10 }}>
+              The numbers that define you
+            </h2>
           </Reveal>
-        </section>
-        <section className="page" style={{ paddingTop: 8 }}>
           <div className="grid cols-2">
             {coreNumbers.map((c, i) => (
               <Reveal key={c.title} delay={i * 0.05}>
                 <div className="card">
-                  <div className="num">{c.n}</div>
+                  <div className="card-num">{c.n}</div>
                   <h3>{c.title}</h3>
                   <p>{c.desc}</p>
                 </div>
@@ -105,18 +107,18 @@ export default function Home() {
         </section>
 
         {/* HOW IT WORKS */}
-        <section className="section-h">
+        <section className="page section">
           <Reveal>
             <span className="eyebrow">Your Journey</span>
-            <h2 className="title">How your reading unfolds</h2>
+            <h2 className="h-section" style={{ marginTop: 10 }}>
+              How a reading works
+            </h2>
           </Reveal>
-        </section>
-        <section className="page" style={{ paddingTop: 8 }}>
           <div className="steps">
             {steps.map((s, i) => (
-              <Reveal key={s.t} delay={i * 0.06}>
+              <Reveal key={s.t} delay={i * 0.05}>
                 <div className="step">
-                  <div className="step-num">{i + 1}</div>
+                  <div className="step-n">0{i + 1}</div>
                   <div>
                     <h3>{s.t}</h3>
                     <p>{s.d}</p>
@@ -128,18 +130,20 @@ export default function Home() {
         </section>
 
         {/* WHAT YOU GET */}
-        <section className="section-h">
+        <section className="page section">
           <Reveal>
-            <span className="eyebrow">Your Personalised Report</span>
-            <h2 className="title">Insight across every part of life</h2>
+            <span className="eyebrow">Your Report</span>
+            <h2 className="h-section" style={{ marginTop: 10 }}>
+              What you&rsquo;ll discover
+            </h2>
           </Reveal>
-        </section>
-        <section className="page" style={{ paddingTop: 8 }}>
           <div className="grid cols-2">
-            {insights.map(([icon, title, desc], i) => (
+            {insights.map(({ Icon, title, desc }, i) => (
               <Reveal key={title} delay={i * 0.05}>
                 <div className="card">
-                  <div className="num">{icon}</div>
+                  <div className="card-ico">
+                    <Icon strokeWidth={1.8} />
+                  </div>
                   <h3>{title}</h3>
                   <p>{desc}</p>
                 </div>
@@ -151,23 +155,23 @@ export default function Home() {
         {/* CTA */}
         <section className="page">
           <Reveal>
-            <div className="cta-band">
-              <span className="eyebrow">Your numbers are waiting</span>
-              <h2 className="title">Ready to meet your profile?</h2>
-              <p className="lead" style={{ margin: "0 auto" }}>
-                Begin a free conversation and uncover what your name and birth
-                date reveal.
+            <div className="cta">
+              <span className="eyebrow accent">Your numbers are waiting</span>
+              <h2 className="h-section">Ready to meet your numbers?</h2>
+              <p className="lead">
+                Begin a free, private conversation and uncover what your name and
+                birth date reveal.
               </p>
               <Link href="/chat" className="btn">
-                Begin Your Reading ✦
+                Begin your reading <ArrowRight />
               </Link>
             </div>
           </Reveal>
         </section>
 
-        <footer className="app-footer">
+        <footer className="footer">
           <p>
-            ॐ Numerologist AI — For personal reflection and entertainment. Not a
+            Numerologist AI — for personal reflection and entertainment. Not a
             substitute for professional advice.
           </p>
           <p style={{ marginTop: 8 }}>
@@ -175,8 +179,6 @@ export default function Home() {
           </p>
         </footer>
       </div>
-
-      <BottomNav />
     </main>
   );
 }

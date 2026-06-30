@@ -2,57 +2,47 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { Home, Sparkles, Shield } from "lucide-react";
 
 const items = [
-  {
-    href: "/",
-    label: "Home",
-    icon: (
-      <path d="M3 10.5 12 3l9 7.5M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" />
-    ),
-  },
-  {
-    href: "/chat",
-    label: "Reading",
-    icon: (
-      <path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4V6a1 1 0 0 1 1-1Z" />
-    ),
-  },
-  {
-    href: "/privacy",
-    label: "Privacy",
-    icon: (
-      <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z" />
-    ),
-  },
+  { href: "/", label: "Home", Icon: Home },
+  { href: "/chat", label: "Reading", Icon: Sparkles },
+  { href: "/privacy", label: "Privacy", Icon: Shield },
 ];
 
+// Normalize for Next's `trailingSlash: true` (pathname comes back as "/x/").
+const norm = (p: string) => p.replace(/\/+$/, "") || "/";
+
 export default function BottomNav() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/";
+  const current = norm(pathname);
+
+  // Reading is a full-screen surface (own composer) — no tab bar there.
+  if (current === "/chat") return null;
 
   return (
-    <nav className="bottom-nav">
-      {items.map((it) => {
-        const active = pathname === it.href;
+    <nav className="tabbar">
+      {items.map(({ href, label, Icon }) => {
+        const active = norm(href) === current;
         return (
           <Link
-            key={it.href}
-            href={it.href}
-            className={`nav-item ${active ? "active" : ""}`}
+            key={href}
+            href={href}
+            className={`tab ${active ? "active" : ""}`}
+            aria-current={active ? "page" : undefined}
           >
-            <span className="nav-icon">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                {it.icon}
-              </svg>
+            <span className="tab-ico">
+              {active && (
+                <motion.span
+                  layoutId="tab-pill"
+                  className="tab-pill"
+                  transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                />
+              )}
+              <Icon strokeWidth={2} />
             </span>
-            {it.label}
+            <span>{label}</span>
           </Link>
         );
       })}

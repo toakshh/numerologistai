@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Tree-shake icon imports so only used glyphs ship (not the whole set).
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   // Export a fully static front-end that Capacitor bundles into the native app.
   output: "export",
   // next/image optimization needs a server; disable for static export.
