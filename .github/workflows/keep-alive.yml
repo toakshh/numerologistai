@@ -1,0 +1,29 @@
+name: Keep backend alive
+
+# Pings the backend /health endpoint on a schedule so free hosts (Render,
+# Railway, Fly, etc.) don't idle the instance to sleep. This runs on GitHub's
+# infrastructure, so it works even when the host has fully suspended the app.
+on:
+  schedule:
+    # Every 10 minutes. Free hosts typically sleep after ~15 min of inactivity.
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {} # allow manual runs from the Actions tab
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        # Set the repo secret BACKEND_URL to your deployed API base URL,
+        # e.g. https://numerologistai-api.onrender.com
+        run: |
+          if [ -z "${{ secrets.BACKEND_URL }}" ]; then
+            echo "BACKEND_URL secret is not set. Skipping."
+            exit 0
+          fi
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 30 "${{ secrets.BACKEND_URL }}/health" || echo "000")
+          echo "Health check returned HTTP $code"
+          if [ "$code" != "200" ]; then
+            echo "Backend did not return 200 (got $code)."
+            exit 1
+          fi

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Numerologist AI</string>
+    <string name="title_activity_main">Numerologist AI</string>
+    <string name="package_name">com.numerologistai.app</string>
+    <string name="custom_url_scheme">com.numerologistai.app</string>
+</resources>
